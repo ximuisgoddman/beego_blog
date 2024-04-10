@@ -11,9 +11,9 @@ type CommentsController struct {
 	baseController
 }
 
-//评论列表
+// 评论列表
 func (this *CommentsController) List() {
-	if this.userid != 1 {
+	if !this.isadmin {
 		this.showmsg("未授权访问")
 	}
 	var list []*models.Comments
@@ -36,7 +36,7 @@ func (this *CommentsController) List() {
 	this.display()
 }
 
-//添加评论
+// 添加评论
 func (this *CommentsController) Add() {
 	x := ipfilter.ConnFilterCtx().GetabnConn(this.clientip)
 	if x > 0 {
@@ -96,7 +96,7 @@ func (this *CommentsController) Add() {
 	}
 }
 
-//编辑评论
+// 编辑评论
 func (this *CommentsController) Edit() {
 	if this.userid != 1 {
 		this.showmsg("未授权操作")
@@ -119,7 +119,7 @@ func (this *CommentsController) Edit() {
 	this.display()
 }
 
-//删除评论
+// 删除评论
 func (this *CommentsController) Delete() {
 	if this.userid != 1 {
 		this.showmsg("未授权操作")

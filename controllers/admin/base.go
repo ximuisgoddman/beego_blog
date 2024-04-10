@@ -20,6 +20,7 @@ type baseController struct {
 	beego.Controller
 	userid         int64
 	username       string
+	isadmin        bool
 	moduleName     string
 	controllerName string
 	actionName     string
@@ -61,6 +62,9 @@ func (this *baseController) auth() {
 		}
 		var user models.User
 		user.Id = this.userid
+		user.Query().Filter("id", this.userid).One(&user)
+		this.isadmin = user.Isadmin
+		fmt.Println("this.isadmin:", this.isadmin)
 		if user.Read() == nil {
 			this.permissionlist = MakePermissionList(user)
 		}
@@ -98,11 +102,12 @@ func (this *baseController) display(tpl ...string) {
 	}
 	this.Data["version"] = beego.AppConfig.String("AppVer")
 	this.Data["adminid"] = this.userid
+	this.Data["isadmin"] = this.isadmin
 	this.Data["adminname"] = this.username
 	this.Data["userpermission"] = this.permissionlist
 	this.Layout = this.moduleName + "/layout.html"
 	this.TplName = tplname
-	fmt.Printf("Layout:%s,TplName:%s", this.Layout, this.TplName)
+	fmt.Printf("Layout:%s,TplName:%s", this.Layout, this.TplName, this.Data)
 }
 
 // 显示错误提示

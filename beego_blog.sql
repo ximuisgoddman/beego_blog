@@ -350,6 +350,7 @@ CREATE TABLE `tb_user` (
   `lastip` varchar(32) NOT NULL DEFAULT '',
   `authkey` varchar(10) NOT NULL DEFAULT '',
   `active` tinyint(4) NOT NULL DEFAULT '0',
+  `isadmin` bool,
   `permission` varchar(100) NOT NULL DEFAULT '',
   `avator` varchar(150) NOT NULL DEFAULT '/static/upload/default/user-default-60x60.png',
   `upcount` bigint(20) NOT NULL DEFAULT '0',
